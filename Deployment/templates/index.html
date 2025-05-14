@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- Mendeklarasikan dokumen HTML dan bahasa utama (English) -->
+<head>
+    <meta charset="UTF-8"> <!-- Mengatur karakter encoding ke UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Membuat tampilan responsif -->
+    <title>Prediksi Species ID</title> <!-- Judul halaman web -->
+    <link rel="stylesheet" href="../static/style.css"> <!-- Menghubungkan file CSS eksternal -->
+</head>
+<body>
+    <!-- Header halaman -->
+    <header>
+        <h1>Prediksi Species Tanaman Berdasarkan Data Lingkungan</h1> <!-- Judul utama halaman -->
+    </header>
+
+    <!-- Konten utama halaman -->
+    <main>
+        <!-- Form input data yang akan dikirim ke endpoint /predict dengan metode POST -->
+        <form action="/predict" method="POST">
+            <!-- Input koordinat lokasi -->
+            <label for="lat">Latitude:</label>
+            <input type="number" id="lat" name="lat" step="any" required> <!-- step="any" mengizinkan angka desimal -->
+
+            <label for="lon">Longitude:</label>
+            <input type="number" id="lon" name="lon" step="any" required>
+
+            <!-- Input ketidakpastian lokasi -->
+            <label for="geoUncertaintyInM">Geo Uncertainty (Meter):</label>
+            <input type="number" id="geoUncertaintyInM" name="geoUncertaintyInM" step="any" required>
+
+            <!-- Input ID survei -->
+            <label for="surveyId">Survey ID:</label>
+            <input type="number" id="surveyId" name="surveyId" required>
+
+            <!-- Input berbagai parameter tanah (SoilGrids) -->
+            <label for="Soilgrid-bdod">Soil Bulk Density (bdod):</label>
+            <input type="number" id="Soilgrid-bdod" name="Soilgrid-bdod" step="any" required>
+
+            <label for="Soilgrid-cec">Cation Exchange Capacity (cec):</label>
+            <input type="number" id="Soilgrid-cec" name="Soilgrid-cec" step="any" required>
+
+            <label for="Soilgrid-cfvo">Coarse Fragments Volume (cfvo):</label>
+            <input type="number" id="Soilgrid-cfvo" name="Soilgrid-cfvo" step="any" required>
+
+            <label for="Soilgrid-clay">Kadar Clay (%):</label>
+            <input type="number" id="Soilgrid-clay" name="Soilgrid-clay" step="any" required>
+
+            <label for="Soilgrid-nitrogen">Kadar Nitrogen (%):</label>
+            <input type="number" id="Soilgrid-nitrogen" name="Soilgrid-nitrogen" step="any" required>
+
+            <label for="Soilgrid-phh2o">pH H₂O:</label>
+            <input type="number" id="Soilgrid-phh2o" name="Soilgrid-phh2o" step="any" required>
+
+            <label for="Soilgrid-sand">Kadar Pasir (%):</label>
+            <input type="number" id="Soilgrid-sand" name="Soilgrid-sand" step="any" required>
+
+            <label for="Soilgrid-silt">Kadar Debu (silt) (%):</label>
+            <input type="number" id="Soilgrid-silt" name="Soilgrid-silt" step="any" required>
+
+            <label for="Soilgrid-soc">Kandungan Karbon Organik (% SOC):</label>
+            <input type="number" id="Soilgrid-soc" name="Soilgrid-soc" step="any" required>
+
+            <!-- Tombol untuk mengirim form -->
+            <button type="submit">Prediksi Species</button>
+        </form>
+
+        <!-- Menampilkan hasil prediksi jika tersedia -->
+        {% if prediction_text %}
+        <div class="result">
+            <h2>Hasil Prediksi</h2>
+
+            <!-- Menampilkan survey ID jika disediakan -->
+            {% if survey_id %}
+                <p>ID Survei: {{ survey_id }}</p>
+            {% endif %}
+
+            <!-- Menampilkan hasil prediksi -->
+            <p>Species ID yang diprediksi: <strong>{{ prediction_text }}</strong></p>
+        </div>
+        {% endif %}
+    </main>
+</body>
+</html>
